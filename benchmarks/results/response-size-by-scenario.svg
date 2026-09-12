@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="680" viewBox="0 0 1280 680">
+<rect width="100%" height="100%" fill="#0b1220"/>
+<text x="90" y="42" font-family="Inter,Arial,sans-serif" font-size="26" font-weight="700" fill="#f8fafc">Mean MCP response size</text>
+<text x="90" y="66" font-family="Inter,Arial,sans-serif" font-size="13" fill="#94a3b8">AgentMesh MCP local benchmark · bytes per response; lower is generally better for context usage</text>
+<line x1="90" y1="530" x2="1220" y2="530" stroke="#243248"/>
+<text x="78" y="535" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">0</text>
+<line x1="90" y1="417" x2="1220" y2="417" stroke="#243248"/>
+<text x="78" y="422" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">291.583</text>
+<line x1="90" y1="304" x2="1220" y2="304" stroke="#243248"/>
+<text x="78" y="309" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">583.167</text>
+<line x1="90" y1="191" x2="1220" y2="191" stroke="#243248"/>
+<text x="78" y="196" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">874.75</text>
+<line x1="90" y1="78" x2="1220" y2="78" stroke="#243248"/>
+<text x="78" y="83" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">1166.333</text>
+<rect x="179" y="78" width="44" height="452" rx="4" fill="#a78bfa"/>
+<text x="201" y="92" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">1166.333</text>
+<text x="203" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Protocol</text>
+<text x="203" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">discovery</text>
+<rect x="405" y="308.36117472454265" width="44" height="221.63882527545735" rx="4" fill="#a78bfa"/>
+<text x="427" y="300.36117472454265" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">571.913</text>
+<text x="429" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Coordination</text>
+<text x="429" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">lifecycle</text>
+<rect x="631" y="88.02254416191607" width="44" height="441.9774558380839" rx="4" fill="#a78bfa"/>
+<text x="653" y="92" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">1140.471</text>
+<text x="655" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Artifact</text>
+<text x="655" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">context bounds</text>
+<rect x="857" y="325.7667321425356" width="44" height="204.23326785746437" rx="4" fill="#a78bfa"/>
+<text x="879" y="317.7667321425356" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">527</text>
+<text x="881" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Local</text>
+<text x="881" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">analysis paths</text>
+<rect x="1083" y="387.27466169610227" width="44" height="142.72533830389776" rx="4" fill="#a78bfa"/>
+<text x="1105" y="379.27466169610227" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">368.286</text>
+<text x="1107" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Change</text>
+<text x="1107" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">and review chain</text>
+<rect x="1030" y="638" width="12" height="12" rx="2" fill="#a78bfa"/>
+<text x="1050" y="649" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Bytes</text>
+</svg>

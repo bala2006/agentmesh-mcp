@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="680" viewBox="0 0 1280 680">
+<rect width="100%" height="100%" fill="#0b1220"/>
+<text x="90" y="42" font-family="Inter,Arial,sans-serif" font-size="26" font-weight="700" fill="#f8fafc">Latency by scenario</text>
+<text x="90" y="66" font-family="Inter,Arial,sans-serif" font-size="13" fill="#94a3b8">AgentMesh MCP local benchmark · milliseconds; lower is better</text>
+<line x1="90" y1="530" x2="1220" y2="530" stroke="#243248"/>
+<text x="78" y="535" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">0</text>
+<line x1="90" y1="417" x2="1220" y2="417" stroke="#243248"/>
+<text x="78" y="422" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">44.339</text>
+<line x1="90" y1="304" x2="1220" y2="304" stroke="#243248"/>
+<text x="78" y="309" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">88.677</text>
+<line x1="90" y1="191" x2="1220" y2="191" stroke="#243248"/>
+<text x="78" y="196" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">133.016</text>
+<line x1="90" y1="78" x2="1220" y2="78" stroke="#243248"/>
+<text x="78" y="83" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">177.354</text>
+<rect x="155" y="182.53490758595808" width="44" height="347.4650924140419" rx="4" fill="#60a5fa"/>
+<text x="177" y="174.53490758595808" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">136.337</text>
+<rect x="203" y="169.74106025237666" width="44" height="360.25893974762334" rx="4" fill="#f59e0b"/>
+<text x="225" y="161.74106025237666" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">141.357</text>
+<text x="203" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Protocol</text>
+<text x="203" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">discovery</text>
+<rect x="381" y="124.24389638801495" width="44" height="405.75610361198505" rx="4" fill="#60a5fa"/>
+<text x="403" y="116.24389638801495" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">159.209</text>
+<rect x="429" y="101.00089087362" width="44" height="428.99910912638" rx="4" fill="#f59e0b"/>
+<text x="451" y="93.00089087362" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">168.329</text>
+<text x="429" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Coordination</text>
+<text x="429" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">lifecycle</text>
+<rect x="607" y="91.6068428115521" width="44" height="438.3931571884479" rx="4" fill="#60a5fa"/>
+<text x="629" y="92" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">172.015</text>
+<rect x="655" y="78" width="44" height="452" rx="4" fill="#f59e0b"/>
+<text x="677" y="92" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">177.354</text>
+<text x="655" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Artifact</text>
+<text x="655" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">context bounds</text>
+<rect x="833" y="165.4390653720808" width="44" height="364.5609346279192" rx="4" fill="#60a5fa"/>
+<text x="855" y="157.4390653720808" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">143.045</text>
+<rect x="881" y="157.57416240964403" width="44" height="372.42583759035597" rx="4" fill="#f59e0b"/>
+<text x="903" y="149.57416240964403" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">146.131</text>
+<text x="881" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Local</text>
+<text x="881" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">analysis paths</text>
+<rect x="1059" y="167.97234908713654" width="44" height="362.02765091286346" rx="4" fill="#60a5fa"/>
+<text x="1081" y="159.97234908713654" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">142.051</text>
+<rect x="1107" y="157.67355684112" width="44" height="372.32644315888" rx="4" fill="#f59e0b"/>
+<text x="1129" y="149.67355684112" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">146.092</text>
+<text x="1107" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Change</text>
+<text x="1107" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">and review chain</text>
+<rect x="1030" y="638" width="12" height="12" rx="2" fill="#60a5fa"/>
+<text x="1050" y="649" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Mean</text>
+<rect x="1150" y="638" width="12" height="12" rx="2" fill="#f59e0b"/>
+<text x="1170" y="649" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">P95</text>
+</svg>

@@ -53,11 +53,15 @@ export interface Artifact {
   kind: ArtifactKind;
   title: string;
   content: string;
+  contentHash: string;
+  contentBytes: number;
   createdBy: string;
   taskId?: string;
   metadata?: Record<string, unknown>;
   createdAt: string;
 }
+
+export type ArtifactSummary = Omit<Artifact, 'content' | 'metadata'>;
 
 export interface Decision {
   id: string;
