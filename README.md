@@ -187,6 +187,16 @@ The benchmark drives the built server through real MCP JSON-RPC calls and covers
 
 Increase repetitions with `BENCHMARK_ITERATIONS=10 npm run benchmark`. The current benchmark intentionally does not claim hosted OCR, vision-model accuracy, remote HTTP, OAuth, or real coding-agent runtime coverage.
 
+### Optimization and durability controls
+
+The local store uses atomic temporary-file replacement, compact JSON output, bounded selectors for context/list operations, and one-write review creation. For stronger power-loss durability, enable:
+
+```bash
+AGENTMESH_DURABLE_WRITES=1 npm start
+```
+
+That mode syncs each temporary state file before replacement and is slower by design. The default mode protects against partial JSON files while minimizing latency. Cross-record references are validated before writes, and invalid tool operations return explicit MCP error results.
+
 ## Project structure
 
 ```text

@@ -399,6 +399,40 @@ async function scenarioCoordination(
     checks,
     failures,
   );
+
+  const concurrentMessages = await Promise.all(
+    Array.from({ length: 10 }, (_, index) =>
+      call(`concurrent-message-${index + 1}`, 'agent_message', {
+        operation: 'send',
+        fromAgentId: 'benchmark-planner',
+        toAgentId: 'benchmark-reviewer',
+        taskId,
+        type: 'status',
+        body: `Concurrent coordination message ${index + 1}`,
+      }),
+    ),
+  );
+  const concurrentIds = concurrentMessages.map((result) => result.message?.id).filter(Boolean);
+  assertCondition(
+    concurrentIds.length === 10,
+    'all concurrent messages received IDs',
+    checks,
+    failures,
+  );
+  assertCondition(
+    new Set(concurrentIds).size === 10,
+    'concurrent message IDs are unique',
+    checks,
+    failures,
+  );
+
+  const finalMessages = await call('final-message-list', 'agent_message', { operation: 'list' });
+  assertCondition(
+    finalMessages.messages?.length === 11,
+    'all serialized messages are durable',
+    checks,
+    failures,
+  );
 }
 
 async function scenarioArtifacts(
@@ -565,6 +599,21 @@ async function scenarioChangeReview(
     recordSample(samples, 'change-review-chain', trial, operation, measured);
     return resultPayload(measured.value);
   };
+
+  await call('register-planner', 'agent_manage', {
+    operation: 'register',
+    agentId: 'benchmark-planner',
+    name: 'Benchmark Planner',
+    role: 'planner',
+    runtime: 'benchmark',
+  });
+  await call('register-reviewer', 'agent_manage', {
+    operation: 'register',
+    agentId: 'benchmark-reviewer',
+    name: 'Benchmark Reviewer',
+    role: 'reviewer',
+    runtime: 'benchmark',
+  });
 
   const proposal = await call('change-propose', 'change_propose', {
     title: 'Add guarded benchmark reporting',
@@ -877,6 +926,14 @@ function reportMarkdown(results: BenchmarkResults): string {
   }
 
   lines.push(
+    '## Optimizations exercised',
+    '',
+    '- Compact JSON MCP responses reduce model-context and wire bytes.',
+    '- Project context, lists, and artifact reads use bounded selectors instead of cloning the complete state for every request.',
+    '- State writes use atomic temporary-file replacement; set `AGENTMESH_DURABLE_WRITES=1` to add file syncing for stronger power-loss durability.',
+    '- Review creation validates references and persists the review artifact plus notification message in one mutation.',
+    '- Task transitions, agent references, message references, and artifact task links are validated before persistence.',
+    '',
     '## Interpretation',
     '',
     '- These results establish a repeatable baseline for the local JSON-backed MVP, not a production capacity claim.',

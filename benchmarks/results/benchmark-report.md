@@ -1,22 +1,22 @@
 # AgentMesh MCP Benchmark Report
 
-Generated: 2026-09-12T13:27:21.630Z
+Generated: 2026-09-12T13:40:12.894Z
 
 ## Scope
 
 This benchmark exercises the local stdio MCP MVP through real JSON-RPC calls. It measures protocol behavior, local persistence, deterministic design checks, artifact context bounding, and guarded review workflows. It does not measure hosted OCR, vision-model accuracy, remote HTTP, OAuth, or real coding-agent runtime bridges because those capabilities are not implemented in this version.
 
-Iterations per scenario: **5**
+Iterations per scenario: **20**
 
 ## Results
 
 | Scenario                | Pass rate | Mean (ms) | P50 (ms) | P95 (ms) | Mean response (bytes) | Mean ops/sec |
 | ----------------------- | --------: | --------: | -------: | -------: | --------------------: | -----------: |
-| Protocol discovery      |      100% |    134.54 |  135.513 |  138.225 |              1104.333 |       44.619 |
-| Coordination lifecycle  |      100% |   148.836 |  148.018 |  152.109 |               614.833 |       80.653 |
-| Artifact context bounds |      100% |   192.733 |  177.746 |  249.988 |              5292.667 |        174.4 |
-| Local analysis paths    |      100% |   138.327 |  139.997 |  141.968 |                 638.8 |       36.167 |
-| Change and review chain |      100% |   142.047 |  140.658 |  149.091 |                 472.8 |       35.224 |
+| Protocol discovery      |      100% |    132.42 |   132.73 |  137.013 |              1104.333 |       45.337 |
+| Coordination lifecycle  |      100% |   152.472 |  148.987 |  159.923 |               571.913 |      151.749 |
+| Artifact context bounds |      100% |   185.063 |  181.074 |  185.415 |              5151.515 |      179.667 |
+| Local analysis paths    |      100% |   141.702 |  139.864 |  146.278 |                   527 |       35.362 |
+| Change and review chain |      100% |   142.889 |  142.321 |  151.492 |               379.429 |       49.027 |
 
 ## Correctness
 
@@ -56,6 +56,9 @@ Assertions:
 - message acknowledged
 - project context includes the task
 - acknowledged message is not unread
+- all concurrent messages received IDs
+- concurrent message IDs are unique
+- all serialized messages are durable
 
 ### Artifact context bounds
 
@@ -99,6 +102,14 @@ Assertions:
 - review artifact is discoverable
 - review message is durable
 - review-change prompt rendered successfully
+
+## Optimizations exercised
+
+- Compact JSON MCP responses reduce model-context and wire bytes.
+- Project context, lists, and artifact reads use bounded selectors instead of cloning the complete state for every request.
+- State writes use atomic temporary-file replacement; set `AGENTMESH_DURABLE_WRITES=1` to add file syncing for stronger power-loss durability.
+- Review creation validates references and persists the review artifact plus notification message in one mutation.
+- Task transitions, agent references, message references, and artifact task links are validated before persistence.
 
 ## Interpretation
 

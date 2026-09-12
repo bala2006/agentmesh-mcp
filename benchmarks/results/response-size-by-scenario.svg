@@ -5,31 +5,31 @@
 <line x1="90" y1="530" x2="1220" y2="530" stroke="#243248"/>
 <text x="78" y="535" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">0</text>
 <line x1="90" y1="417" x2="1220" y2="417" stroke="#243248"/>
-<text x="78" y="422" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">1323.167</text>
+<text x="78" y="422" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">1287.879</text>
 <line x1="90" y1="304" x2="1220" y2="304" stroke="#243248"/>
-<text x="78" y="309" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">2646.334</text>
+<text x="78" y="309" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">2575.758</text>
 <line x1="90" y1="191" x2="1220" y2="191" stroke="#243248"/>
-<text x="78" y="196" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">3969.5</text>
+<text x="78" y="196" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">3863.636</text>
 <line x1="90" y1="78" x2="1220" y2="78" stroke="#243248"/>
-<text x="78" y="83" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">5292.667</text>
-<rect x="179" y="435.6886601783184" width="44" height="94.31133982168159" rx="4" fill="#a78bfa"/>
-<text x="201" y="427.6886601783184" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">1104.333</text>
+<text x="78" y="83" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#94a3b8">5151.515</text>
+<rect x="179" y="433.10452051483884" width="44" height="96.89547948516116" rx="4" fill="#a78bfa"/>
+<text x="201" y="425.10452051483884" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">1104.333</text>
 <text x="203" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Protocol</text>
 <text x="203" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">discovery</text>
-<rect x="405" y="477.4925371273122" width="44" height="52.50746287268781" rx="4" fill="#a78bfa"/>
-<text x="427" y="469.4925371273122" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">614.833</text>
+<rect x="405" y="479.8196790652847" width="44" height="50.18032093471532" rx="4" fill="#a78bfa"/>
+<text x="427" y="471.8196790652847" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">571.913</text>
 <text x="429" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Coordination</text>
 <text x="429" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">lifecycle</text>
 <rect x="631" y="78" width="44" height="452" rx="4" fill="#a78bfa"/>
-<text x="653" y="92" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">5292.667</text>
+<text x="653" y="92" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">5151.515</text>
 <text x="655" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Artifact</text>
 <text x="655" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">context bounds</text>
-<rect x="857" y="475.4457270786165" width="44" height="54.554272921383486" rx="4" fill="#a78bfa"/>
-<text x="879" y="467.4457270786165" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">638.8</text>
+<rect x="857" y="483.7603986400117" width="44" height="46.23960135998827" rx="4" fill="#a78bfa"/>
+<text x="879" y="475.7603986400117" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">527</text>
 <text x="881" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Local</text>
 <text x="881" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">analysis paths</text>
-<rect x="1083" y="489.62232273445505" width="44" height="40.377677265544946" rx="4" fill="#a78bfa"/>
-<text x="1105" y="481.62232273445505" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">472.8</text>
+<rect x="1083" y="496.708452173778" width="44" height="33.291547826221986" rx="4" fill="#a78bfa"/>
+<text x="1105" y="488.708452173778" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#cbd5e1">379.429</text>
 <text x="1107" y="558" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">Change</text>
 <text x="1107" y="574" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" fill="#cbd5e1">and review chain</text>
 <rect x="1030" y="638" width="12" height="12" rx="2" fill="#a78bfa"/>
