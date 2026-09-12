@@ -1,6 +1,6 @@
 # AgentMesh MCP Benchmark Report
 
-Generated: 2026-09-12T13:40:12.894Z
+Generated: 2026-09-12T15:14:37.975Z
 
 ## Scope
 
@@ -12,11 +12,11 @@ Iterations per scenario: **20**
 
 | Scenario                | Pass rate | Mean (ms) | P50 (ms) | P95 (ms) | Mean response (bytes) | Mean ops/sec |
 | ----------------------- | --------: | --------: | -------: | -------: | --------------------: | -----------: |
-| Protocol discovery      |      100% |    132.42 |   132.73 |  137.013 |              1104.333 |       45.337 |
-| Coordination lifecycle  |      100% |   152.472 |  148.987 |  159.923 |               571.913 |      151.749 |
-| Artifact context bounds |      100% |   185.063 |  181.074 |  185.415 |              5151.515 |      179.667 |
-| Local analysis paths    |      100% |   141.702 |  139.864 |  146.278 |                   527 |       35.362 |
-| Change and review chain |      100% |   142.889 |  142.321 |  151.492 |               379.429 |       49.027 |
+| Protocol discovery      |      100% |   136.337 |  135.867 |  141.357 |              1166.333 |       44.035 |
+| Coordination lifecycle  |      100% |   159.209 |  155.239 |  168.329 |               571.913 |      145.815 |
+| Artifact context bounds |      100% |   172.015 |  167.748 |  177.354 |              1140.471 |      198.711 |
+| Local analysis paths    |      100% |   143.045 |  142.523 |  146.131 |                   527 |       34.963 |
+| Change and review chain |      100% |   142.051 |  141.452 |  146.092 |               368.286 |       49.291 |
 
 ## Correctness
 
@@ -62,14 +62,17 @@ Assertions:
 
 ### Artifact context bounds
 
-Publish 30 large artifacts and verify metadata/context bounding versus full reads.
+Publish 30 large artifacts and verify compact references, metadata/context bounding, blob-backed persistence, and exact reads.
 
 Assertions:
 
+- artifact publish returns a compact content reference
 - all 30 artifacts are listed
 - artifact list omits content
+- artifact list returns content references and byte sizes
 - project context bounds artifacts to 20
 - project context omits artifact content
+- project-state resource omits artifact content
 - artifact read returns complete content
 
 ### Local analysis paths
@@ -105,8 +108,11 @@ Assertions:
 
 ## Optimizations exercised
 
+- Artifact publish responses return IDs, SHA-256 content hashes, and byte counts instead of echoing large content.
+- Artifact content is stored in content-addressed files while state.json stores only metadata; exact reads still return complete content.
+- Project context, project-state resources, and list operations use bounded projections; list operations support opaque cursors.
+- Unread message context uses bounded previews while message reads preserve full bodies.
 - Compact JSON MCP responses reduce model-context and wire bytes.
-- Project context, lists, and artifact reads use bounded selectors instead of cloning the complete state for every request.
 - State writes use atomic temporary-file replacement; set `AGENTMESH_DURABLE_WRITES=1` to add file syncing for stronger power-loss durability.
 - Review creation validates references and persists the review artifact plus notification message in one mutation.
 - Task transitions, agent references, message references, and artifact task links are validated before persistence.

@@ -16,6 +16,26 @@ const errorResult = (value: unknown) => ({
   content: [{ type: 'text' as const, text: JSON.stringify(value) }],
 });
 
+const artifactSummaryResult = (artifact: {
+  id: string;
+  kind: string;
+  title: string;
+  contentHash: string;
+  contentBytes: number;
+  createdBy: string;
+  taskId?: string;
+  createdAt: string;
+}) => ({
+  id: artifact.id,
+  kind: artifact.kind,
+  title: artifact.title,
+  contentHash: artifact.contentHash,
+  contentBytes: artifact.contentBytes,
+  createdBy: artifact.createdBy,
+  ...(artifact.taskId ? { taskId: artifact.taskId } : {}),
+  createdAt: artifact.createdAt,
+});
+
 const safe =
   (handler: (input: any) => Promise<any>) =>
   async (input: any): Promise<any> => {
@@ -39,10 +59,10 @@ function createServer() {
     {
       description:
         'Read a compact project snapshot: active agents, tasks, unread messages, artifacts, and decisions.',
-      inputSchema: z.object({}),
+      inputSchema: z.object({ limit: z.number().int().min(1).max(100).optional() }),
     },
-    safe(async () => {
-      const context = await store.projectContext();
+    safe(async (input) => {
+      const context = await store.projectContext(input.limit ?? 20);
       return textResult(context);
     }),
   );
@@ -59,12 +79,14 @@ function createServer() {
         runtime: z.string().optional(),
         capabilities: z.array(z.string()).optional(),
         status: z.enum(['online', 'idle', 'busy', 'offline']).optional(),
+        limit: z.number().int().min(1).max(100).optional(),
+        cursor: z.string().optional(),
       }),
     },
     safe(async (input) => {
       if (input.operation === 'list') {
-        const agents = await store.listAgents();
-        return textResult({ agents });
+        const page = await store.listAgents(input.limit ?? 50, input.cursor);
+        return textResult({ agents: page.items, nextCursor: page.nextCursor });
       }
 
       if (input.operation === 'register') {
@@ -110,12 +132,14 @@ function createServer() {
         createdBy: z.string().default('unknown-agent'),
         parentTaskId: z.string().optional(),
         dependencies: z.array(z.string()).optional(),
+        limit: z.number().int().min(1).max(100).optional(),
+        cursor: z.string().optional(),
       }),
     },
     safe(async (input) => {
       if (input.operation === 'list') {
-        const tasks = await store.listTasks();
-        return textResult({ tasks });
+        const page = await store.listTasks(input.limit ?? 50, input.cursor);
+        return textResult({ tasks: page.items, nextCursor: page.nextCursor });
       }
 
       if (input.operation === 'create') {
@@ -159,12 +183,14 @@ function createServer() {
         body: z.string().optional(),
         replyTo: z.string().optional(),
         messageId: z.string().optional(),
+        limit: z.number().int().min(1).max(100).optional(),
+        cursor: z.string().optional(),
       }),
     },
     safe(async (input) => {
       if (input.operation === 'list') {
-        const messages = await store.listMessages();
-        return textResult({ messages });
+        const page = await store.listMessages(input.limit ?? 50, input.cursor);
+        return textResult({ messages: page.items, nextCursor: page.nextCursor });
       }
 
       if (input.operation === 'acknowledge') {
@@ -203,12 +229,14 @@ function createServer() {
         createdBy: z.string().default('unknown-agent'),
         taskId: z.string().optional(),
         metadata: z.record(z.string(), z.unknown()).optional(),
+        limit: z.number().int().min(1).max(100).optional(),
+        cursor: z.string().optional(),
       }),
     },
     safe(async (input) => {
       if (input.operation === 'list') {
-        const artifacts = await store.listArtifactSummaries();
-        return textResult({ artifacts });
+        const page = await store.listArtifactSummaries(input.limit ?? 50, input.cursor);
+        return textResult({ artifacts: page.items, nextCursor: page.nextCursor });
       }
 
       if (input.operation === 'read') {
@@ -229,7 +257,7 @@ function createServer() {
         taskId: input.taskId,
         metadata: input.metadata,
       });
-      return textResult({ artifact });
+      return textResult({ artifact: artifactSummaryResult(artifact) });
     }),
   );
 
@@ -347,7 +375,7 @@ function createServer() {
         {
           uri: uri.href,
           mimeType: 'application/json',
-          text: JSON.stringify(await store.snapshot()),
+          text: JSON.stringify(await store.compactProjectState()),
         },
       ],
     }),

@@ -1,10 +1,11 @@
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { mkdir, open, readFile, rename, unlink } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import type {
   Agent,
   AgentMessage,
   Artifact,
+  ArtifactSummary,
   Decision,
   ProjectState,
   Task,
@@ -12,6 +13,39 @@ import type {
 } from './types.js';
 
 const now = () => new Date().toISOString();
+
+function artifactDigest(content: string): { hash: string; bytes: number } {
+  return {
+    hash: createHash('sha256').update(content, 'utf8').digest('hex'),
+    bytes: Buffer.byteLength(content, 'utf8'),
+  };
+}
+
+function artifactSummary({
+  content: _content,
+  metadata: _metadata,
+  ...artifact
+}: Artifact): ArtifactSummary {
+  return artifact;
+}
+
+type Page<T> = { items: T[]; nextCursor?: string };
+
+function page<T>(items: T[], limit: number, cursor?: string): Page<T> {
+  const offset = cursor
+    ? Number.parseInt(Buffer.from(cursor, 'base64url').toString('utf8'), 10)
+    : 0;
+  if (!Number.isInteger(offset) || offset < 0 || offset > items.length) {
+    throw new ProjectStoreError('Invalid pagination cursor.');
+  }
+  const nextOffset = offset + limit;
+  return {
+    items: items.slice(offset, nextOffset),
+    ...(nextOffset < items.length
+      ? { nextCursor: Buffer.from(String(nextOffset), 'utf8').toString('base64url') }
+      : {}),
+  };
+}
 
 const allowedTaskTransitions: Record<TaskStatus, readonly TaskStatus[]> = {
   backlog: ['backlog', 'claimed', 'in_progress', 'cancelled'],
@@ -49,11 +83,14 @@ export class ProjectStoreError extends Error {
 
 export class JsonProjectStore {
   private readonly filePath: string;
+  private readonly artifactDirectory: string;
+  private readonly persistedArtifactHashes = new Set<string>();
   private state: ProjectState | undefined;
   private writeQueue: Promise<unknown> = Promise.resolve();
 
   constructor(dataDirectory = process.env.AGENTMESH_DATA_DIR ?? '.agentmesh') {
     this.filePath = resolve(dataDirectory, 'state.json');
+    this.artifactDirectory = resolve(dataDirectory, 'artifacts');
   }
 
   private async load(): Promise<ProjectState> {
@@ -61,7 +98,35 @@ export class JsonProjectStore {
 
     try {
       const raw = await readFile(this.filePath, 'utf8');
-      this.state = JSON.parse(raw) as ProjectState;
+      const state = JSON.parse(raw) as ProjectState;
+      for (const artifact of state.artifacts) {
+        const hasEmbeddedContent = typeof artifact.content === 'string';
+        const digest = artifactDigest(hasEmbeddedContent ? artifact.content : '');
+        artifact.contentHash ??= digest.hash;
+        artifact.contentBytes ??= hasEmbeddedContent ? digest.bytes : 0;
+        if (!hasEmbeddedContent) {
+          try {
+            artifact.content = await readFile(
+              join(this.artifactDirectory, artifact.contentHash),
+              'utf8',
+            );
+            const storedDigest = artifactDigest(artifact.content);
+            if (storedDigest.hash !== artifact.contentHash) {
+              throw new ProjectStoreError(`Artifact content hash mismatch for ${artifact.id}`);
+            }
+            artifact.contentBytes = storedDigest.bytes;
+            this.persistedArtifactHashes.add(artifact.contentHash);
+          } catch (error) {
+            throw new ProjectStoreError(
+              `Artifact content is missing for ${artifact.id}: ${String(error)}`,
+            );
+          }
+        } else if (artifact.contentHash !== digest.hash || artifact.contentBytes !== digest.bytes) {
+          artifact.contentHash = digest.hash;
+          artifact.contentBytes = digest.bytes;
+        }
+      }
+      this.state = state;
     } catch (error) {
       const code = error && typeof error === 'object' && 'code' in error ? error.code : undefined;
       if (code !== 'ENOENT') throw error;
@@ -71,17 +136,46 @@ export class JsonProjectStore {
     return this.state;
   }
 
+  private async persistArtifactContent(artifact: Artifact): Promise<void> {
+    if (this.persistedArtifactHashes.has(artifact.contentHash)) return;
+    await mkdir(this.artifactDirectory, { recursive: true });
+    const targetPath = join(this.artifactDirectory, artifact.contentHash);
+    const temporaryPath = `${targetPath}.${process.pid}.${randomUUID()}.tmp`;
+    try {
+      const handle = await open(temporaryPath, 'w', 0o600);
+      try {
+        await handle.writeFile(artifact.content, 'utf8');
+        if (process.env.AGENTMESH_DURABLE_WRITES === '1') await handle.sync();
+      } finally {
+        await handle.close();
+      }
+      await rename(temporaryPath, targetPath);
+      this.persistedArtifactHashes.add(artifact.contentHash);
+    } catch (error) {
+      await unlink(temporaryPath).catch(() => undefined);
+      throw error;
+    }
+  }
+
   private async persist(state: ProjectState): Promise<void> {
     state.project.updatedAt = now();
     await mkdir(dirname(this.filePath), { recursive: true });
+    for (const artifact of state.artifacts) await this.persistArtifactContent(artifact);
 
+    // Artifact bytes live in content-addressed files. The metadata file remains small even
+    // when a project contains many large OCR, vision, or review results.
+    const persistedState = {
+      ...state,
+      artifacts: state.artifacts.map(({ content: _content, ...artifact }) => artifact),
+    };
+    const metadata = JSON.stringify(persistedState);
     // Atomic replacement prevents a process crash from leaving a partially-written JSON file.
     // Set AGENTMESH_DURABLE_WRITES=1 when power-loss durability is more important than latency.
     const temporaryPath = `${this.filePath}.${process.pid}.${randomUUID()}.tmp`;
     try {
       const handle = await open(temporaryPath, 'w', 0o600);
       try {
-        await handle.writeFile(`${JSON.stringify(state)}\n`, 'utf8');
+        await handle.writeFile(`${metadata}\n`, 'utf8');
         if (process.env.AGENTMESH_DURABLE_WRITES === '1') await handle.sync();
       } finally {
         await handle.close();
@@ -120,47 +214,75 @@ export class JsonProjectStore {
     project: ProjectState['project'];
     agents: Agent[];
     tasks: Task[];
-    unreadMessages: AgentMessage[];
-    artifacts: Array<Omit<Artifact, 'content'>>;
+    unreadMessages: Array<Omit<AgentMessage, 'body'> & { bodyPreview: string }>;
+    artifacts: ArtifactSummary[];
     decisions: Decision[];
   }> {
     return this.read((state) => ({
       project: { ...state.project },
-      agents: state.agents.map((agent) => ({ ...agent, capabilities: [...agent.capabilities] })),
+      agents: state.agents
+        .slice(-limit)
+        .map((agent) => ({ ...agent, capabilities: [...agent.capabilities] })),
       tasks: state.tasks
         .slice(-limit)
         .map((task) => ({ ...task, dependencies: [...task.dependencies] })),
       unreadMessages: state.messages
         .filter((message) => !message.acknowledgedAt)
         .slice(-limit)
-        .map((message) => ({ ...message })),
-      artifacts: state.artifacts
-        .slice(-limit)
-        .map(({ content: _content, ...artifact }) => ({ ...artifact })),
+        .map(({ body: _body, ...message }) => ({ ...message, bodyPreview: _body.slice(0, 160) })),
+      artifacts: state.artifacts.slice(-limit).map(artifactSummary),
       decisions: state.decisions.slice(-limit).map((decision) => ({ ...decision })),
     }));
   }
 
-  async listAgents(): Promise<Agent[]> {
+  async compactProjectState(limit = 20): Promise<{
+    version: string;
+    project: ProjectState['project'];
+    agents: Agent[];
+    tasks: Task[];
+    unreadMessages: Array<Omit<AgentMessage, 'body'> & { bodyPreview: string }>;
+    artifacts: ArtifactSummary[];
+    decisions: Decision[];
+  }> {
+    const context = await this.projectContext(limit);
+    return {
+      version: context.project.updatedAt,
+      ...context,
+    };
+  }
+
+  async listAgents(limit = 50, cursor?: string): Promise<Page<Agent>> {
     return this.read((state) =>
-      state.agents.map((agent) => ({ ...agent, capabilities: [...agent.capabilities] })),
+      page(
+        state.agents.map((agent) => ({ ...agent, capabilities: [...agent.capabilities] })),
+        limit,
+        cursor,
+      ),
     );
   }
 
-  async listTasks(): Promise<Task[]> {
+  async listTasks(limit = 50, cursor?: string): Promise<Page<Task>> {
     return this.read((state) =>
-      state.tasks.map((task) => ({ ...task, dependencies: [...task.dependencies] })),
+      page(
+        state.tasks.map((task) => ({ ...task, dependencies: [...task.dependencies] })),
+        limit,
+        cursor,
+      ),
     );
   }
 
-  async listMessages(limit = 50): Promise<AgentMessage[]> {
-    return this.read((state) => state.messages.slice(-limit).map((message) => ({ ...message })));
+  async listMessages(limit = 50, cursor?: string): Promise<Page<AgentMessage>> {
+    return this.read((state) =>
+      page(
+        state.messages.map((message) => ({ ...message })),
+        limit,
+        cursor,
+      ),
+    );
   }
 
-  async listArtifactSummaries(): Promise<Array<Omit<Artifact, 'content'>>> {
-    return this.read((state) =>
-      state.artifacts.map(({ content: _content, ...artifact }) => ({ ...artifact })),
-    );
+  async listArtifactSummaries(limit = 50, cursor?: string): Promise<Page<ArtifactSummary>> {
+    return this.read((state) => page(state.artifacts.map(artifactSummary), limit, cursor));
   }
 
   async getArtifact(artifactId: string): Promise<Artifact | undefined> {
@@ -305,12 +427,21 @@ export class JsonProjectStore {
     });
   }
 
-  async createArtifact(input: Omit<Artifact, 'id' | 'createdAt'>): Promise<Artifact> {
+  async createArtifact(
+    input: Omit<Artifact, 'id' | 'createdAt' | 'contentHash' | 'contentBytes'>,
+  ): Promise<Artifact> {
     return this.mutate((state) => {
       if (input.taskId && !state.tasks.some((task) => task.id === input.taskId)) {
         throw new ProjectStoreError(`Artifact task not found: ${input.taskId}`);
       }
-      const artifact: Artifact = { ...input, id: `artifact_${randomUUID()}`, createdAt: now() };
+      const digest = artifactDigest(input.content);
+      const artifact: Artifact = {
+        ...input,
+        contentHash: digest.hash,
+        contentBytes: digest.bytes,
+        id: `artifact_${randomUUID()}`,
+        createdAt: now(),
+      };
       state.artifacts.push(artifact);
       return artifact;
     });
@@ -337,11 +468,14 @@ export class JsonProjectStore {
       }
 
       const timestamp = now();
+      const digest = artifactDigest(input.question);
       const review: Artifact = {
         id: `artifact_${randomUUID()}`,
         kind: 'review',
         title: `Review request for ${input.artifactId}`,
         content: input.question,
+        contentHash: digest.hash,
+        contentBytes: digest.bytes,
         createdBy: input.requestedBy,
         metadata: {
           targetArtifactId: input.artifactId,

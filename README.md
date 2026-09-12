@@ -22,8 +22,9 @@ Implemented:
 - MCP stdio server using the official MCP TypeScript SDK v2;
 - nine small MCP tools instead of a large tool catalog;
 - two MCP resources and two reusable prompts;
-- serialized JSON persistence in `.agentmesh/state.json`;
-- durable tasks, messages, artifacts, design reviews, and change proposals;
+- serialized JSON metadata persistence in `.agentmesh/state.json` with content-addressed artifact files in `.agentmesh/artifacts/`;
+- compact artifact references with exact content retrieval by ID;
+- bounded list operations with opaque cursors and compact project-state resources;
 - honest multimodal provider boundary: it inspects local asset readiness but does not pretend to perform OCR without a configured provider;
 - MIT license and client configuration examples.
 
@@ -49,7 +50,7 @@ npm run build
 npm start
 ```
 
-The server communicates over stdio. MCP hosts launch it as a child process. State is written to `.agentmesh/state.json` in the current working directory by default.
+The server communicates over stdio. MCP hosts launch it as a child process. Project metadata is written to `.agentmesh/state.json` and large artifact content is stored under `.agentmesh/artifacts/` in the current working directory by default.
 
 To use a different state directory:
 
@@ -156,7 +157,7 @@ Prompts:
 6. The parent requests review with `review_request`.
 7. A human or future policy engine approves a `change_propose` result.
 
-Large results should be published as artifacts and referenced by ID instead of being repeatedly placed in model context.
+Large results should be published as artifacts and referenced by ID instead of being repeatedly placed in model context. Artifact publish and list operations return metadata, SHA-256 content references, and byte sizes; use `artifact_manage` with `operation: "read"` to retrieve exact content.
 
 ## Development
 
@@ -189,7 +190,7 @@ Increase repetitions with `BENCHMARK_ITERATIONS=10 npm run benchmark`. The curre
 
 ### Optimization and durability controls
 
-The local store uses atomic temporary-file replacement, compact JSON output, bounded selectors for context/list operations, and one-write review creation. For stronger power-loss durability, enable:
+The local store uses atomic temporary-file replacement, content-addressed artifact blobs, compact JSON output, bounded project/context projections, opaque cursor pagination for list operations, and one-write review creation. Artifact content is never included in project context or list responses. For stronger power-loss durability, enable:
 
 ```bash
 AGENTMESH_DURABLE_WRITES=1 npm start

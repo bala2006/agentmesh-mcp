@@ -22,7 +22,7 @@ The MCP server is the compatibility boundary. Internal workers should not become
 
 ## State model
 
-The local MVP stores one project state document at `.agentmesh/state.json`. Mutations are serialized in-process to avoid overlapping writes. Production deployment should replace this with PostgreSQL and a durable event bus.
+The local MVP stores project metadata in `.agentmesh/state.json` and content-addressed artifact bytes in `.agentmesh/artifacts/<sha256>`. Mutations are serialized in-process and metadata replacement is atomic. Artifact publish/list/context paths return compact references; exact content is read by ID. Production deployment should replace this with SQLite WAL or PostgreSQL plus a durable event bus when multi-process or multi-user coordination is required.
 
 ## Coordination model
 

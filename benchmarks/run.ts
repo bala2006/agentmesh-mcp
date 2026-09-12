@@ -449,7 +449,9 @@ async function scenarioArtifacts(
   };
 
   const content = 'benchmark-artifact-content-'.repeat(180);
+  const contentBytes = Buffer.byteLength(content, 'utf8');
   let lastArtifactId = '';
+  let lastPublished: Record<string, any> | undefined;
   for (let index = 0; index < 30; index += 1) {
     const published = await call(`publish-${index + 1}`, 'artifact_manage', {
       operation: 'publish',
@@ -458,8 +460,15 @@ async function scenarioArtifacts(
       content,
       createdBy: 'benchmark-agent',
     });
+    lastPublished = published.artifact;
     lastArtifactId = published.artifact?.id as string;
   }
+  assertCondition(
+    Boolean(lastPublished?.contentHash) && lastPublished?.contentBytes === contentBytes,
+    'artifact publish returns a compact content reference',
+    checks,
+    failures,
+  );
 
   const listed = await call('artifact-list', 'artifact_manage', { operation: 'list' });
   const list = listed.artifacts as Array<Record<string, unknown>>;
@@ -467,6 +476,15 @@ async function scenarioArtifacts(
   assertCondition(
     list.every((artifact) => !('content' in artifact)),
     'artifact list omits content',
+    checks,
+    failures,
+  );
+  assertCondition(
+    list.every(
+      (artifact) =>
+        typeof artifact.contentHash === 'string' && artifact.contentBytes === contentBytes,
+    ),
+    'artifact list returns content references and byte sizes',
     checks,
     failures,
   );
@@ -482,6 +500,19 @@ async function scenarioArtifacts(
   assertCondition(
     contextArtifacts.every((artifact) => !('content' in artifact)),
     'project context omits artifact content',
+    checks,
+    failures,
+  );
+
+  const stateResource = await timed(() =>
+    client.request('resources/read', { uri: 'agentmesh://project/state' }),
+  );
+  recordSample(samples, 'artifact-context-bounds', trial, 'project-state-resource', stateResource);
+  const stateText = ((stateResource.value.result as { contents?: Array<{ text?: string }> })
+    .contents ?? [])[0]?.text;
+  assertCondition(
+    Boolean(stateText) && !stateText.includes('"content"'),
+    'project-state resource omits artifact content',
     checks,
     failures,
   );
@@ -691,7 +722,7 @@ const scenarioDefinitions = [
     id: 'artifact-context-bounds',
     title: 'Artifact context bounds',
     description:
-      'Publish 30 large artifacts and verify metadata/context bounding versus full reads.',
+      'Publish 30 large artifacts and verify compact references, metadata/context bounding, blob-backed persistence, and exact reads.',
     run: scenarioArtifacts,
   },
   {
@@ -928,8 +959,11 @@ function reportMarkdown(results: BenchmarkResults): string {
   lines.push(
     '## Optimizations exercised',
     '',
+    '- Artifact publish responses return IDs, SHA-256 content hashes, and byte counts instead of echoing large content.',
+    '- Artifact content is stored in content-addressed files while state.json stores only metadata; exact reads still return complete content.',
+    '- Project context, project-state resources, and list operations use bounded projections; list operations support opaque cursors.',
+    '- Unread message context uses bounded previews while message reads preserve full bodies.',
     '- Compact JSON MCP responses reduce model-context and wire bytes.',
-    '- Project context, lists, and artifact reads use bounded selectors instead of cloning the complete state for every request.',
     '- State writes use atomic temporary-file replacement; set `AGENTMESH_DURABLE_WRITES=1` to add file syncing for stronger power-loss durability.',
     '- Review creation validates references and persists the review artifact plus notification message in one mutation.',
     '- Task transitions, agent references, message references, and artifact task links are validated before persistence.',
