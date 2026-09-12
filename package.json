@@ -1,0 +1,34 @@
+{
+  "name": "agentmesh-mcp",
+  "version": "0.1.0",
+  "description": "A lean MCP gateway for coordinating coding agents, artifacts, multimodal analysis, and design-system checks.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "agentmesh-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "docs",
+    "examples"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "latest",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "prettier": "^3.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.8.0"
+  }
+}

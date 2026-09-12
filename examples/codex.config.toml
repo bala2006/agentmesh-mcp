@@ -1,0 +1,3 @@
+[mcp_servers.agentmesh]
+command = "node"
+args = ["/absolute/path/to/agentmesh/dist/index.js"]
