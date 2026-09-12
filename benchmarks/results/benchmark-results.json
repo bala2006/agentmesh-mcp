@@ -1,0 +1,2681 @@
+{
+  "metadata": {
+    "generatedAt": "2026-09-12T13:27:21.630Z",
+    "iterations": 5,
+    "node": "v22.23.2",
+    "platform": "linux-x64",
+    "serverPath": "dist/index.js",
+    "command": "npm run benchmark"
+  },
+  "scenarios": [
+    {
+      "id": "protocol-discovery",
+      "title": "Protocol discovery",
+      "description": "Cold-start MCP initialization, surface discovery, and resource/prompt reads.",
+      "trials": 5,
+      "passedTrials": 5,
+      "passRate": 1,
+      "meanDurationMs": 134.54,
+      "p50DurationMs": 135.513,
+      "p95DurationMs": 138.225,
+      "minDurationMs": 130.445,
+      "maxDurationMs": 138.225,
+      "meanResponseBytes": 1104.333,
+      "meanOperationsPerSecond": 44.619
+    },
+    {
+      "id": "coordination-lifecycle",
+      "title": "Coordination lifecycle",
+      "description": "Two-agent registration, task state transitions, message delivery, and context.",
+      "trials": 5,
+      "passedTrials": 5,
+      "passRate": 1,
+      "meanDurationMs": 148.836,
+      "p50DurationMs": 148.018,
+      "p95DurationMs": 152.109,
+      "minDurationMs": 145.681,
+      "maxDurationMs": 152.109,
+      "meanResponseBytes": 614.833,
+      "meanOperationsPerSecond": 80.653
+    },
+    {
+      "id": "artifact-context-bounds",
+      "title": "Artifact context bounds",
+      "description": "Publish 30 large artifacts and verify metadata/context bounding versus full reads.",
+      "trials": 5,
+      "passedTrials": 5,
+      "passRate": 1,
+      "meanDurationMs": 192.733,
+      "p50DurationMs": 177.746,
+      "p95DurationMs": 249.988,
+      "minDurationMs": 176.409,
+      "maxDurationMs": 249.988,
+      "meanResponseBytes": 5292.667,
+      "meanOperationsPerSecond": 174.4
+    },
+    {
+      "id": "local-analysis-paths",
+      "title": "Local analysis paths",
+      "description": "Deterministic design checks plus honest text, existing-asset, and missing-asset behavior.",
+      "trials": 5,
+      "passedTrials": 5,
+      "passRate": 1,
+      "meanDurationMs": 138.327,
+      "p50DurationMs": 139.997,
+      "p95DurationMs": 141.968,
+      "minDurationMs": 134.283,
+      "maxDurationMs": 141.968,
+      "meanResponseBytes": 638.8,
+      "meanOperationsPerSecond": 36.167
+    },
+    {
+      "id": "change-review-chain",
+      "title": "Change and review chain",
+      "description": "Record a guarded change proposal, create a review artifact, notify a reviewer, and render a prompt.",
+      "trials": 5,
+      "passedTrials": 5,
+      "passRate": 1,
+      "meanDurationMs": 142.047,
+      "p50DurationMs": 140.658,
+      "p95DurationMs": 149.091,
+      "minDurationMs": 138.394,
+      "maxDurationMs": 149.091,
+      "meanResponseBytes": 472.8,
+      "meanOperationsPerSecond": 35.224
+    }
+  ],
+  "trials": [
+    {
+      "scenario": "protocol-discovery",
+      "trial": 1,
+      "passed": true,
+      "durationMs": 130.445368,
+      "operationCount": 6,
+      "checks": [
+        "server identity is agentmesh-mcp",
+        "nine public tools discovered",
+        "two resources discovered",
+        "two prompts discovered",
+        "design-system resource read successfully",
+        "plan-task prompt rendered successfully"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 2,
+      "passed": true,
+      "durationMs": 131.575689,
+      "operationCount": 6,
+      "checks": [
+        "server identity is agentmesh-mcp",
+        "nine public tools discovered",
+        "two resources discovered",
+        "two prompts discovered",
+        "design-system resource read successfully",
+        "plan-task prompt rendered successfully"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 3,
+      "passed": true,
+      "durationMs": 135.51274300000006,
+      "operationCount": 6,
+      "checks": [
+        "server identity is agentmesh-mcp",
+        "nine public tools discovered",
+        "two resources discovered",
+        "two prompts discovered",
+        "design-system resource read successfully",
+        "plan-task prompt rendered successfully"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 4,
+      "passed": true,
+      "durationMs": 136.942541,
+      "operationCount": 6,
+      "checks": [
+        "server identity is agentmesh-mcp",
+        "nine public tools discovered",
+        "two resources discovered",
+        "two prompts discovered",
+        "design-system resource read successfully",
+        "plan-task prompt rendered successfully"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 5,
+      "passed": true,
+      "durationMs": 138.22471299999995,
+      "operationCount": 6,
+      "checks": [
+        "server identity is agentmesh-mcp",
+        "nine public tools discovered",
+        "two resources discovered",
+        "two prompts discovered",
+        "design-system resource read successfully",
+        "plan-task prompt rendered successfully"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "passed": true,
+      "durationMs": 152.109236,
+      "operationCount": 12,
+      "checks": [
+        "planner registered online",
+        "reviewer registered online",
+        "two agents listed",
+        "task created with an ID",
+        "task transitioned to claimed",
+        "task transitioned to in_progress",
+        "task transitioned to review",
+        "task transitioned to done",
+        "task-linked message created",
+        "one message listed",
+        "message acknowledged",
+        "project context includes the task",
+        "acknowledged message is not unread"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "passed": true,
+      "durationMs": 148.01812100000006,
+      "operationCount": 12,
+      "checks": [
+        "planner registered online",
+        "reviewer registered online",
+        "two agents listed",
+        "task created with an ID",
+        "task transitioned to claimed",
+        "task transitioned to in_progress",
+        "task transitioned to review",
+        "task transitioned to done",
+        "task-linked message created",
+        "one message listed",
+        "message acknowledged",
+        "project context includes the task",
+        "acknowledged message is not unread"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "passed": true,
+      "durationMs": 152.008149,
+      "operationCount": 12,
+      "checks": [
+        "planner registered online",
+        "reviewer registered online",
+        "two agents listed",
+        "task created with an ID",
+        "task transitioned to claimed",
+        "task transitioned to in_progress",
+        "task transitioned to review",
+        "task transitioned to done",
+        "task-linked message created",
+        "one message listed",
+        "message acknowledged",
+        "project context includes the task",
+        "acknowledged message is not unread"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "passed": true,
+      "durationMs": 145.68094999999994,
+      "operationCount": 12,
+      "checks": [
+        "planner registered online",
+        "reviewer registered online",
+        "two agents listed",
+        "task created with an ID",
+        "task transitioned to claimed",
+        "task transitioned to in_progress",
+        "task transitioned to review",
+        "task transitioned to done",
+        "task-linked message created",
+        "one message listed",
+        "message acknowledged",
+        "project context includes the task",
+        "acknowledged message is not unread"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "passed": true,
+      "durationMs": 146.36250100000007,
+      "operationCount": 12,
+      "checks": [
+        "planner registered online",
+        "reviewer registered online",
+        "two agents listed",
+        "task created with an ID",
+        "task transitioned to claimed",
+        "task transitioned to in_progress",
+        "task transitioned to review",
+        "task transitioned to done",
+        "task-linked message created",
+        "one message listed",
+        "message acknowledged",
+        "project context includes the task",
+        "acknowledged message is not unread"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "passed": true,
+      "durationMs": 177.74615700000004,
+      "operationCount": 33,
+      "checks": [
+        "all 30 artifacts are listed",
+        "artifact list omits content",
+        "project context bounds artifacts to 20",
+        "project context omits artifact content",
+        "artifact read returns complete content"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "passed": true,
+      "durationMs": 176.52187099999992,
+      "operationCount": 33,
+      "checks": [
+        "all 30 artifacts are listed",
+        "artifact list omits content",
+        "project context bounds artifacts to 20",
+        "project context omits artifact content",
+        "artifact read returns complete content"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "passed": true,
+      "durationMs": 249.98803499999985,
+      "operationCount": 33,
+      "checks": [
+        "all 30 artifacts are listed",
+        "artifact list omits content",
+        "project context bounds artifacts to 20",
+        "project context omits artifact content",
+        "artifact read returns complete content"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "passed": true,
+      "durationMs": 176.40854799999988,
+      "operationCount": 33,
+      "checks": [
+        "all 30 artifacts are listed",
+        "artifact list omits content",
+        "project context bounds artifacts to 20",
+        "project context omits artifact content",
+        "artifact read returns complete content"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "passed": true,
+      "durationMs": 183.00129100000004,
+      "operationCount": 33,
+      "checks": [
+        "all 30 artifacts are listed",
+        "artifact list omits content",
+        "project context bounds artifacts to 20",
+        "project context omits artifact content",
+        "artifact read returns complete content"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 1,
+      "passed": true,
+      "durationMs": 140.8620979999996,
+      "operationCount": 5,
+      "checks": [
+        "clean design passes",
+        "clean design has no issues",
+        "inaccessible design fails",
+        "raw color detected",
+        "raw dimension detected",
+        "missing focus state detected",
+        "text analysis path completes",
+        "text analysis does not invent confidence",
+        "existing asset correctly reports provider-required status",
+        "missing asset reports zero confidence"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 2,
+      "passed": true,
+      "durationMs": 134.2826759999998,
+      "operationCount": 5,
+      "checks": [
+        "clean design passes",
+        "clean design has no issues",
+        "inaccessible design fails",
+        "raw color detected",
+        "raw dimension detected",
+        "missing focus state detected",
+        "text analysis path completes",
+        "text analysis does not invent confidence",
+        "existing asset correctly reports provider-required status",
+        "missing asset reports zero confidence"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 3,
+      "passed": true,
+      "durationMs": 141.9675769999999,
+      "operationCount": 5,
+      "checks": [
+        "clean design passes",
+        "clean design has no issues",
+        "inaccessible design fails",
+        "raw color detected",
+        "raw dimension detected",
+        "missing focus state detected",
+        "text analysis path completes",
+        "text analysis does not invent confidence",
+        "existing asset correctly reports provider-required status",
+        "missing asset reports zero confidence"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 4,
+      "passed": true,
+      "durationMs": 139.9974769999999,
+      "operationCount": 5,
+      "checks": [
+        "clean design passes",
+        "clean design has no issues",
+        "inaccessible design fails",
+        "raw color detected",
+        "raw dimension detected",
+        "missing focus state detected",
+        "text analysis path completes",
+        "text analysis does not invent confidence",
+        "existing asset correctly reports provider-required status",
+        "missing asset reports zero confidence"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 5,
+      "passed": true,
+      "durationMs": 134.52464599999985,
+      "operationCount": 5,
+      "checks": [
+        "clean design passes",
+        "clean design has no issues",
+        "inaccessible design fails",
+        "raw color detected",
+        "raw dimension detected",
+        "missing focus state detected",
+        "text analysis path completes",
+        "text analysis does not invent confidence",
+        "existing asset correctly reports provider-required status",
+        "missing asset reports zero confidence"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 1,
+      "passed": true,
+      "durationMs": 138.39377399999967,
+      "operationCount": 5,
+      "checks": [
+        "change proposal is pending review",
+        "change proposal has an artifact ID",
+        "review artifact is created",
+        "review notification is created",
+        "review artifact is discoverable",
+        "review message is durable",
+        "review-change prompt rendered successfully"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 2,
+      "passed": true,
+      "durationMs": 139.62589500000013,
+      "operationCount": 5,
+      "checks": [
+        "change proposal is pending review",
+        "change proposal has an artifact ID",
+        "review artifact is created",
+        "review notification is created",
+        "review artifact is discoverable",
+        "review message is durable",
+        "review-change prompt rendered successfully"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 3,
+      "passed": true,
+      "durationMs": 140.65753799999993,
+      "operationCount": 5,
+      "checks": [
+        "change proposal is pending review",
+        "change proposal has an artifact ID",
+        "review artifact is created",
+        "review notification is created",
+        "review artifact is discoverable",
+        "review message is durable",
+        "review-change prompt rendered successfully"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 4,
+      "passed": true,
+      "durationMs": 142.46521800000028,
+      "operationCount": 5,
+      "checks": [
+        "change proposal is pending review",
+        "change proposal has an artifact ID",
+        "review artifact is created",
+        "review notification is created",
+        "review artifact is discoverable",
+        "review message is durable",
+        "review-change prompt rendered successfully"
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 5,
+      "passed": true,
+      "durationMs": 149.09052800000018,
+      "operationCount": 5,
+      "checks": [
+        "change proposal is pending review",
+        "change proposal has an artifact ID",
+        "review artifact is created",
+        "review notification is created",
+        "review artifact is discoverable",
+        "review message is durable",
+        "review-change prompt rendered successfully"
+      ],
+      "failures": []
+    }
+  ],
+  "samples": [
+    {
+      "scenario": "protocol-discovery",
+      "trial": 1,
+      "operation": "initialize",
+      "durationMs": 117.12288700000002,
+      "responseBytes": 232
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 1,
+      "operation": "tools/list",
+      "durationMs": 3.085786000000013,
+      "responseBytes": 4788
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 1,
+      "operation": "resources/list",
+      "durationMs": 0.6067320000000223,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 1,
+      "operation": "prompts/list",
+      "durationMs": 0.7889570000000106,
+      "responseBytes": 412
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 1,
+      "operation": "resources/read",
+      "durationMs": 1.1473010000000272,
+      "responseBytes": 452
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 1,
+      "operation": "prompts/get",
+      "durationMs": 1.7017219999999895,
+      "responseBytes": 283
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 2,
+      "operation": "initialize",
+      "durationMs": 119.30102400000004,
+      "responseBytes": 232
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 2,
+      "operation": "tools/list",
+      "durationMs": 3.644480000000044,
+      "responseBytes": 4788
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 2,
+      "operation": "resources/list",
+      "durationMs": 0.7864109999999869,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 2,
+      "operation": "prompts/list",
+      "durationMs": 1.0731470000000058,
+      "responseBytes": 412
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 2,
+      "operation": "resources/read",
+      "durationMs": 1.3290170000000217,
+      "responseBytes": 452
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 2,
+      "operation": "prompts/get",
+      "durationMs": 1.57858200000004,
+      "responseBytes": 283
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 3,
+      "operation": "initialize",
+      "durationMs": 123.42527899999999,
+      "responseBytes": 232
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 3,
+      "operation": "tools/list",
+      "durationMs": 3.6857840000000124,
+      "responseBytes": 4788
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 3,
+      "operation": "resources/list",
+      "durationMs": 0.6795510000000604,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 3,
+      "operation": "prompts/list",
+      "durationMs": 0.9181530000000748,
+      "responseBytes": 412
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 3,
+      "operation": "resources/read",
+      "durationMs": 1.4916379999999663,
+      "responseBytes": 452
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 3,
+      "operation": "prompts/get",
+      "durationMs": 1.7610600000000431,
+      "responseBytes": 283
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 4,
+      "operation": "initialize",
+      "durationMs": 125.15784299999996,
+      "responseBytes": 232
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 4,
+      "operation": "tools/list",
+      "durationMs": 3.473724999999945,
+      "responseBytes": 4788
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 4,
+      "operation": "resources/list",
+      "durationMs": 0.9915969999999561,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 4,
+      "operation": "prompts/list",
+      "durationMs": 0.8661149999999225,
+      "responseBytes": 412
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 4,
+      "operation": "resources/read",
+      "durationMs": 1.2646939999999631,
+      "responseBytes": 452
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 4,
+      "operation": "prompts/get",
+      "durationMs": 1.3965279999999893,
+      "responseBytes": 283
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 5,
+      "operation": "initialize",
+      "durationMs": 126.34947499999998,
+      "responseBytes": 232
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 5,
+      "operation": "tools/list",
+      "durationMs": 3.62389399999995,
+      "responseBytes": 4788
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 5,
+      "operation": "resources/list",
+      "durationMs": 0.8222260000000006,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 5,
+      "operation": "prompts/list",
+      "durationMs": 0.8482260000000679,
+      "responseBytes": 412
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 5,
+      "operation": "resources/read",
+      "durationMs": 1.1302879999999504,
+      "responseBytes": 452
+    },
+    {
+      "scenario": "protocol-discovery",
+      "trial": 5,
+      "operation": "prompts/get",
+      "durationMs": 1.4582490000000234,
+      "responseBytes": 283
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "agent-register-a",
+      "durationMs": 135.72686,
+      "responseBytes": 420
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "agent-register-b",
+      "durationMs": 1.4895320000000538,
+      "responseBytes": 421
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "agent-list",
+      "durationMs": 0.7808410000000094,
+      "responseBytes": 813
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "task-create",
+      "durationMs": 2.058719999999994,
+      "responseBytes": 496
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "task-claimed",
+      "durationMs": 1.148841999999945,
+      "responseBytes": 540
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "task-in_progress",
+      "durationMs": 0.863234000000034,
+      "responseBytes": 544
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "task-review",
+      "durationMs": 0.7328200000000606,
+      "responseBytes": 539
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "task-done",
+      "durationMs": 0.7417049999999108,
+      "responseBytes": 537
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "message-send",
+      "durationMs": 1.8885649999999714,
+      "responseBytes": 443
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "message-list",
+      "durationMs": 0.5158500000000004,
+      "responseBytes": 473
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "message-ack",
+      "durationMs": 0.6838569999999891,
+      "responseBytes": 499
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 1,
+      "operation": "project-context",
+      "durationMs": 0.5629860000000235,
+      "responseBytes": 1653
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "agent-register-a",
+      "durationMs": 131.49746600000014,
+      "responseBytes": 420
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "agent-register-b",
+      "durationMs": 1.6678190000000086,
+      "responseBytes": 421
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "agent-list",
+      "durationMs": 0.6770910000000185,
+      "responseBytes": 813
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "task-create",
+      "durationMs": 1.7680669999999736,
+      "responseBytes": 496
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "task-claimed",
+      "durationMs": 1.1449279999999362,
+      "responseBytes": 540
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "task-in_progress",
+      "durationMs": 1.185207999999875,
+      "responseBytes": 544
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "task-review",
+      "durationMs": 1.09035300000005,
+      "responseBytes": 539
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "task-done",
+      "durationMs": 1.0911479999999756,
+      "responseBytes": 537
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "message-send",
+      "durationMs": 2.366690999999946,
+      "responseBytes": 443
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "message-list",
+      "durationMs": 0.5468270000001212,
+      "responseBytes": 473
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "message-ack",
+      "durationMs": 0.9221640000000662,
+      "responseBytes": 499
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 2,
+      "operation": "project-context",
+      "durationMs": 0.5955670000000737,
+      "responseBytes": 1653
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "agent-register-a",
+      "durationMs": 136.72485599999982,
+      "responseBytes": 420
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "agent-register-b",
+      "durationMs": 1.5612910000002103,
+      "responseBytes": 421
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "agent-list",
+      "durationMs": 0.9372349999998733,
+      "responseBytes": 813
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "task-create",
+      "durationMs": 2.429450000000088,
+      "responseBytes": 496
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "task-claimed",
+      "durationMs": 1.2539730000000873,
+      "responseBytes": 540
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "task-in_progress",
+      "durationMs": 0.749463999999989,
+      "responseBytes": 544
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "task-review",
+      "durationMs": 0.6278829999998834,
+      "responseBytes": 539
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "task-done",
+      "durationMs": 0.74426799999992,
+      "responseBytes": 537
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "message-send",
+      "durationMs": 1.9667729999998755,
+      "responseBytes": 443
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "message-list",
+      "durationMs": 0.46354499999984,
+      "responseBytes": 473
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "message-ack",
+      "durationMs": 0.5970190000000457,
+      "responseBytes": 499
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 3,
+      "operation": "project-context",
+      "durationMs": 0.4800999999999931,
+      "responseBytes": 1653
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "agent-register-a",
+      "durationMs": 129.16671399999996,
+      "responseBytes": 420
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "agent-register-b",
+      "durationMs": 1.5729519999999866,
+      "responseBytes": 421
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "agent-list",
+      "durationMs": 0.6995610000001307,
+      "responseBytes": 813
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "task-create",
+      "durationMs": 2.1754199999998036,
+      "responseBytes": 496
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "task-claimed",
+      "durationMs": 1.9167879999999968,
+      "responseBytes": 540
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "task-in_progress",
+      "durationMs": 0.9715310000001409,
+      "responseBytes": 544
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "task-review",
+      "durationMs": 0.6592869999999493,
+      "responseBytes": 539
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "task-done",
+      "durationMs": 0.6534540000000106,
+      "responseBytes": 537
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "message-send",
+      "durationMs": 2.115831999999955,
+      "responseBytes": 443
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "message-list",
+      "durationMs": 0.5119590000001608,
+      "responseBytes": 473
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "message-ack",
+      "durationMs": 0.6644569999998566,
+      "responseBytes": 499
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 4,
+      "operation": "project-context",
+      "durationMs": 0.4716809999999896,
+      "responseBytes": 1653
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "agent-register-a",
+      "durationMs": 128.56801100000007,
+      "responseBytes": 420
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "agent-register-b",
+      "durationMs": 1.598449999999957,
+      "responseBytes": 421
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "agent-list",
+      "durationMs": 0.6803910000000997,
+      "responseBytes": 813
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "task-create",
+      "durationMs": 1.7509999999999764,
+      "responseBytes": 496
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "task-claimed",
+      "durationMs": 1.0713470000000598,
+      "responseBytes": 540
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "task-in_progress",
+      "durationMs": 1.6284550000000309,
+      "responseBytes": 544
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "task-review",
+      "durationMs": 1.517468000000008,
+      "responseBytes": 539
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "task-done",
+      "durationMs": 1.0878949999998895,
+      "responseBytes": 537
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "message-send",
+      "durationMs": 2.2895249999999123,
+      "responseBytes": 443
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "message-list",
+      "durationMs": 0.4834960000000592,
+      "responseBytes": 473
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "message-ack",
+      "durationMs": 0.7843639999998686,
+      "responseBytes": 499
+    },
+    {
+      "scenario": "coordination-lifecycle",
+      "trial": 5,
+      "operation": "project-context",
+      "durationMs": 0.47768199999995886,
+      "responseBytes": 1653
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-1",
+      "durationMs": 131.03330699999992,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-2",
+      "durationMs": 1.9199049999999716,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-3",
+      "durationMs": 1.2371169999998983,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-4",
+      "durationMs": 1.5935259999998834,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-5",
+      "durationMs": 1.3565790000000106,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-6",
+      "durationMs": 1.2011969999998655,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-7",
+      "durationMs": 1.2491509999999835,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-8",
+      "durationMs": 1.1286350000000311,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-9",
+      "durationMs": 1.7003819999999905,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-10",
+      "durationMs": 1.1382720000001427,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-11",
+      "durationMs": 0.9179229999999734,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-12",
+      "durationMs": 1.2179670000000442,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-13",
+      "durationMs": 1.3282379999998284,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-14",
+      "durationMs": 1.176326999999901,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-15",
+      "durationMs": 1.1148079999998117,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-16",
+      "durationMs": 1.018406000000141,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-17",
+      "durationMs": 1.1740979999999581,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-18",
+      "durationMs": 0.8467239999999947,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-19",
+      "durationMs": 1.3232040000000325,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-20",
+      "durationMs": 1.0676479999999628,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-21",
+      "durationMs": 1.1225990000000365,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-22",
+      "durationMs": 1.1621210000000701,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-23",
+      "durationMs": 1.338606000000027,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-24",
+      "durationMs": 2.206533000000036,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-25",
+      "durationMs": 1.1412560000001122,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-26",
+      "durationMs": 1.9547159999999622,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-27",
+      "durationMs": 1.6132709999999406,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-28",
+      "durationMs": 3.0440500000001975,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-29",
+      "durationMs": 1.693452999999863,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "publish-30",
+      "durationMs": 1.1245110000002114,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "artifact-list",
+      "durationMs": 0.5539500000002135,
+      "responseBytes": 7623
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "project-context",
+      "durationMs": 0.5704800000000887,
+      "responseBytes": 5481
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 1,
+      "operation": "artifact-read",
+      "durationMs": 0.42992000000003827,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-1",
+      "durationMs": 125.46094299999982,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-2",
+      "durationMs": 1.7146849999999176,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-3",
+      "durationMs": 2.0599409999999807,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-4",
+      "durationMs": 1.089236000000028,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-5",
+      "durationMs": 1.9667349999999715,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-6",
+      "durationMs": 1.0049220000000787,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-7",
+      "durationMs": 0.909849000000122,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-8",
+      "durationMs": 0.9870619999999235,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-9",
+      "durationMs": 2.2385679999999866,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-10",
+      "durationMs": 2.7312279999998736,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-11",
+      "durationMs": 2.1236039999998866,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-12",
+      "durationMs": 1.006411000000071,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-13",
+      "durationMs": 1.0172419999998965,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-14",
+      "durationMs": 1.5109259999999267,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-15",
+      "durationMs": 1.5501879999999346,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-16",
+      "durationMs": 1.3860320000001138,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-17",
+      "durationMs": 1.0746439999998074,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-18",
+      "durationMs": 1.4568389999999454,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-19",
+      "durationMs": 1.1310869999999795,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-20",
+      "durationMs": 0.9864139999999679,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-21",
+      "durationMs": 0.9834450000000743,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-22",
+      "durationMs": 0.9753550000000359,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-23",
+      "durationMs": 1.0298569999999927,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-24",
+      "durationMs": 2.5366059999998924,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-25",
+      "durationMs": 1.831335000000081,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-26",
+      "durationMs": 3.6976830000000973,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-27",
+      "durationMs": 1.465947000000142,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-28",
+      "durationMs": 1.272664000000077,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-29",
+      "durationMs": 1.2127199999999903,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "publish-30",
+      "durationMs": 1.4089509999998882,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "artifact-list",
+      "durationMs": 0.6490550000000894,
+      "responseBytes": 7623
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "project-context",
+      "durationMs": 0.6336959999998726,
+      "responseBytes": 5481
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 2,
+      "operation": "artifact-read",
+      "durationMs": 0.456079999999929,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-1",
+      "durationMs": 201.7326790000002,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-2",
+      "durationMs": 1.3497889999998733,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-3",
+      "durationMs": 1.2477770000000419,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-4",
+      "durationMs": 0.9561250000001564,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-5",
+      "durationMs": 0.9144889999997758,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-6",
+      "durationMs": 0.8205909999996948,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-7",
+      "durationMs": 0.9217979999998533,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-8",
+      "durationMs": 1.8591820000001462,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-9",
+      "durationMs": 1.688539000000219,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-10",
+      "durationMs": 1.8529849999999897,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-11",
+      "durationMs": 0.8511609999995926,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-12",
+      "durationMs": 0.7704209999997147,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-13",
+      "durationMs": 0.7888620000003357,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-14",
+      "durationMs": 1.115943999999672,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-15",
+      "durationMs": 1.9310020000002623,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-16",
+      "durationMs": 1.2424080000000686,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-17",
+      "durationMs": 1.2654770000003737,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-18",
+      "durationMs": 1.0523950000001605,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-19",
+      "durationMs": 1.0630820000001222,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-20",
+      "durationMs": 0.9145849999999882,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-21",
+      "durationMs": 0.928515999999945,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-22",
+      "durationMs": 0.9420970000001034,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-23",
+      "durationMs": 1.7188320000000203,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-24",
+      "durationMs": 4.027986000000055,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-25",
+      "durationMs": 1.600116000000071,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-26",
+      "durationMs": 1.7809940000001916,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-27",
+      "durationMs": 2.823171000000002,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-28",
+      "durationMs": 1.7166990000000624,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-29",
+      "durationMs": 1.8630080000002636,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "publish-30",
+      "durationMs": 1.360559000000194,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "artifact-list",
+      "durationMs": 0.7947229999999763,
+      "responseBytes": 7623
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "project-context",
+      "durationMs": 0.6023480000003474,
+      "responseBytes": 5481
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 3,
+      "operation": "artifact-read",
+      "durationMs": 0.43162800000027346,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-1",
+      "durationMs": 128.46926099999973,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-2",
+      "durationMs": 2.5086260000002767,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-3",
+      "durationMs": 1.2548150000002352,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-4",
+      "durationMs": 0.9812809999998535,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-5",
+      "durationMs": 1.6699719999996887,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-6",
+      "durationMs": 1.9687730000000556,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-7",
+      "durationMs": 2.4343260000000555,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-8",
+      "durationMs": 1.4142809999998462,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-9",
+      "durationMs": 1.9200989999999365,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-10",
+      "durationMs": 1.1491280000000188,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-11",
+      "durationMs": 0.9826010000001588,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-12",
+      "durationMs": 0.9729319999996733,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-13",
+      "durationMs": 1.2992349999999533,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-14",
+      "durationMs": 1.0137449999997443,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-15",
+      "durationMs": 1.2557950000000346,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-16",
+      "durationMs": 1.5048029999998107,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-17",
+      "durationMs": 0.99302200000011,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-18",
+      "durationMs": 0.8590919999996913,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-19",
+      "durationMs": 0.8379109999996217,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-20",
+      "durationMs": 0.8285660000001371,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-21",
+      "durationMs": 1.385106000000178,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-22",
+      "durationMs": 1.476680000000215,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-23",
+      "durationMs": 1.7101510000002236,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-24",
+      "durationMs": 2.7041810000000623,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-25",
+      "durationMs": 1.6566710000001876,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-26",
+      "durationMs": 3.115671999999904,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-27",
+      "durationMs": 1.175496999999723,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-28",
+      "durationMs": 1.025963000000047,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-29",
+      "durationMs": 1.057586999999785,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "publish-30",
+      "durationMs": 1.0107840000000579,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "artifact-list",
+      "durationMs": 0.5425049999998919,
+      "responseBytes": 7623
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "project-context",
+      "durationMs": 0.5343800000000556,
+      "responseBytes": 5481
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 4,
+      "operation": "artifact-read",
+      "durationMs": 0.37627900000006775,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-1",
+      "durationMs": 131.70233199999984,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-2",
+      "durationMs": 2.125597000000198,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-3",
+      "durationMs": 1.2839950000002318,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-4",
+      "durationMs": 0.8274750000000495,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-5",
+      "durationMs": 0.9656399999998939,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-6",
+      "durationMs": 1.6305599999996048,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-7",
+      "durationMs": 1.565150999999787,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-8",
+      "durationMs": 1.3942799999999806,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-9",
+      "durationMs": 1.5703159999998206,
+      "responseBytes": 5210
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-10",
+      "durationMs": 1.219857999999931,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-11",
+      "durationMs": 1.2229019999999764,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-12",
+      "durationMs": 0.8521130000003723,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-13",
+      "durationMs": 1.404178000000229,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-14",
+      "durationMs": 1.9448929999998654,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-15",
+      "durationMs": 1.8493429999998625,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-16",
+      "durationMs": 1.2469830000000002,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-17",
+      "durationMs": 1.6120979999996052,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-18",
+      "durationMs": 0.9846230000002834,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-19",
+      "durationMs": 0.8616230000002361,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-20",
+      "durationMs": 2.239889999999832,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-21",
+      "durationMs": 2.2751210000001265,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-22",
+      "durationMs": 1.6118420000002516,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-23",
+      "durationMs": 1.1527030000002014,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-24",
+      "durationMs": 2.4141169999998056,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-25",
+      "durationMs": 2.212981000000127,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-26",
+      "durationMs": 2.990682000000106,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-27",
+      "durationMs": 1.210168000000067,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-28",
+      "durationMs": 1.0792599999999766,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-29",
+      "durationMs": 1.074033999999756,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "publish-30",
+      "durationMs": 1.0557959999996456,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "artifact-list",
+      "durationMs": 0.5873360000000503,
+      "responseBytes": 7623
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "project-context",
+      "durationMs": 0.5788609999999608,
+      "responseBytes": 5481
+    },
+    {
+      "scenario": "artifact-context-bounds",
+      "trial": 5,
+      "operation": "artifact-read",
+      "durationMs": 0.7074230000002899,
+      "responseBytes": 5212
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 1,
+      "operation": "design-clean",
+      "durationMs": 130.45012700000007,
+      "responseBytes": 292
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 1,
+      "operation": "design-failing",
+      "durationMs": 1.5694910000001983,
+      "responseBytes": 1011
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 1,
+      "operation": "multimodal-text",
+      "durationMs": 1.9315839999999298,
+      "responseBytes": 500
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 1,
+      "operation": "multimodal-existing-asset",
+      "durationMs": 1.8474879999998848,
+      "responseBytes": 794
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 1,
+      "operation": "multimodal-missing-asset",
+      "durationMs": 1.2676079999996546,
+      "responseBytes": 597
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 2,
+      "operation": "design-clean",
+      "durationMs": 124.68610699999999,
+      "responseBytes": 292
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 2,
+      "operation": "design-failing",
+      "durationMs": 1.2241760000001705,
+      "responseBytes": 1011
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 2,
+      "operation": "multimodal-text",
+      "durationMs": 1.3869190000000344,
+      "responseBytes": 500
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 2,
+      "operation": "multimodal-existing-asset",
+      "durationMs": 1.0160240000000158,
+      "responseBytes": 794
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 2,
+      "operation": "multimodal-missing-asset",
+      "durationMs": 1.8670499999998356,
+      "responseBytes": 597
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 3,
+      "operation": "design-clean",
+      "durationMs": 131.48197500000015,
+      "responseBytes": 292
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 3,
+      "operation": "design-failing",
+      "durationMs": 1.901550000000043,
+      "responseBytes": 1011
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 3,
+      "operation": "multimodal-text",
+      "durationMs": 2.4953709999999774,
+      "responseBytes": 500
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 3,
+      "operation": "multimodal-existing-asset",
+      "durationMs": 1.512988999999834,
+      "responseBytes": 794
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 3,
+      "operation": "multimodal-missing-asset",
+      "durationMs": 1.0259329999998954,
+      "responseBytes": 597
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 4,
+      "operation": "design-clean",
+      "durationMs": 130.2879750000002,
+      "responseBytes": 292
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 4,
+      "operation": "design-failing",
+      "durationMs": 2.0524969999996756,
+      "responseBytes": 1011
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 4,
+      "operation": "multimodal-text",
+      "durationMs": 2.0614669999999933,
+      "responseBytes": 500
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 4,
+      "operation": "multimodal-existing-asset",
+      "durationMs": 1.1130130000001373,
+      "responseBytes": 794
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 4,
+      "operation": "multimodal-missing-asset",
+      "durationMs": 1.1392769999997654,
+      "responseBytes": 597
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 5,
+      "operation": "design-clean",
+      "durationMs": 125.53791699999965,
+      "responseBytes": 292
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 5,
+      "operation": "design-failing",
+      "durationMs": 1.5011300000001029,
+      "responseBytes": 1011
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 5,
+      "operation": "multimodal-text",
+      "durationMs": 1.5071540000003552,
+      "responseBytes": 500
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 5,
+      "operation": "multimodal-existing-asset",
+      "durationMs": 1.1711290000002919,
+      "responseBytes": 794
+    },
+    {
+      "scenario": "local-analysis-paths",
+      "trial": 5,
+      "operation": "multimodal-missing-asset",
+      "durationMs": 1.0922559999999066,
+      "responseBytes": 597
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 1,
+      "operation": "change-propose",
+      "durationMs": 127.4361899999999,
+      "responseBytes": 277
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 1,
+      "operation": "review-request",
+      "durationMs": 2.1731369999997696,
+      "responseBytes": 216
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 1,
+      "operation": "artifact-list",
+      "durationMs": 1.728135000000293,
+      "responseBytes": 1087
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 1,
+      "operation": "message-list",
+      "durationMs": 1.5644499999998516,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 1,
+      "operation": "prompts/get-review",
+      "durationMs": 1.5684289999999237,
+      "responseBytes": 325
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 2,
+      "operation": "change-propose",
+      "durationMs": 128.62416500000018,
+      "responseBytes": 277
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 2,
+      "operation": "review-request",
+      "durationMs": 2.607097000000067,
+      "responseBytes": 216
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 2,
+      "operation": "artifact-list",
+      "durationMs": 2.068967000000157,
+      "responseBytes": 1087
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 2,
+      "operation": "message-list",
+      "durationMs": 1.2228379999996832,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 2,
+      "operation": "prompts/get-review",
+      "durationMs": 1.3385119999998096,
+      "responseBytes": 325
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 3,
+      "operation": "change-propose",
+      "durationMs": 130.26351599999998,
+      "responseBytes": 277
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 3,
+      "operation": "review-request",
+      "durationMs": 2.674829000000045,
+      "responseBytes": 216
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 3,
+      "operation": "artifact-list",
+      "durationMs": 1.4665769999996883,
+      "responseBytes": 1087
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 3,
+      "operation": "message-list",
+      "durationMs": 1.1955520000001343,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 3,
+      "operation": "prompts/get-review",
+      "durationMs": 1.0464149999997971,
+      "responseBytes": 325
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 4,
+      "operation": "change-propose",
+      "durationMs": 133.00965199999973,
+      "responseBytes": 277
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 4,
+      "operation": "review-request",
+      "durationMs": 2.0093990000000304,
+      "responseBytes": 216
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 4,
+      "operation": "artifact-list",
+      "durationMs": 1.3090210000000297,
+      "responseBytes": 1087
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 4,
+      "operation": "message-list",
+      "durationMs": 1.333810000000085,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 4,
+      "operation": "prompts/get-review",
+      "durationMs": 1.1275080000000344,
+      "responseBytes": 325
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 5,
+      "operation": "change-propose",
+      "durationMs": 138.12427100000014,
+      "responseBytes": 277
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 5,
+      "operation": "review-request",
+      "durationMs": 2.6284350000000813,
+      "responseBytes": 216
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 5,
+      "operation": "artifact-list",
+      "durationMs": 1.4970299999999952,
+      "responseBytes": 1087
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 5,
+      "operation": "message-list",
+      "durationMs": 1.443742999999813,
+      "responseBytes": 459
+    },
+    {
+      "scenario": "change-review-chain",
+      "trial": 5,
+      "operation": "prompts/get-review",
+      "durationMs": 1.563803999999891,
+      "responseBytes": 325
+    }
+  ]
+}

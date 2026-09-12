@@ -168,6 +168,25 @@ npm run dev
 
 `npm run dev` starts the stdio server and will wait for an MCP client. Do not use it as a long-running shell command without an MCP host attached.
 
+## Benchmark
+
+Run five reproducible local scenarios with five trials per scenario:
+
+```bash
+npm run benchmark
+```
+
+The benchmark drives the built server through real MCP JSON-RPC calls and covers protocol discovery, multi-agent coordination, artifact/context bounding, deterministic local analysis, and the change/review chain. It generates:
+
+- `benchmarks/results/benchmark-results.json`
+- `benchmarks/results/benchmark-report.md`
+- `benchmarks/results/benchmark-report.html`
+- `benchmarks/results/latency-by-scenario.svg`
+- `benchmarks/results/response-size-by-scenario.svg`
+- `benchmarks/results/correctness-by-scenario.svg`
+
+Increase repetitions with `BENCHMARK_ITERATIONS=10 npm run benchmark`. The current benchmark intentionally does not claim hosted OCR, vision-model accuracy, remote HTTP, OAuth, or real coding-agent runtime coverage.
+
 ## Project structure
 
 ```text
