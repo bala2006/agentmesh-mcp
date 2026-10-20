@@ -22,8 +22,9 @@ Implemented:
 - MCP stdio server using the official MCP TypeScript SDK v2;
 - nine small MCP tools instead of a large tool catalog;
 - two MCP resources and two reusable prompts;
-- serialized JSON persistence in `.agentmesh/state.json`;
-- durable tasks, messages, artifacts, design reviews, and change proposals;
+- serialized JSON metadata persistence in `.agentmesh/state.json` with content-addressed artifact files in `.agentmesh/artifacts/`;
+- compact artifact references with exact content retrieval by ID;
+- bounded list operations with opaque cursors and compact project-state resources;
 - honest multimodal provider boundary: it inspects local asset readiness but does not pretend to perform OCR without a configured provider;
 - MIT license and client configuration examples.
 
@@ -49,7 +50,7 @@ npm run build
 npm start
 ```
 
-The server communicates over stdio. MCP hosts launch it as a child process. State is written to `.agentmesh/state.json` in the current working directory by default.
+The server communicates over stdio. MCP hosts launch it as a child process. Project metadata is written to `.agentmesh/state.json` and large artifact content is stored under `.agentmesh/artifacts/` in the current working directory by default.
 
 To use a different state directory:
 
@@ -156,7 +157,7 @@ Prompts:
 6. The parent requests review with `review_request`.
 7. A human or future policy engine approves a `change_propose` result.
 
-Large results should be published as artifacts and referenced by ID instead of being repeatedly placed in model context.
+Large results should be published as artifacts and referenced by ID instead of being repeatedly placed in model context. Artifact publish and list operations return metadata, SHA-256 content references, and byte sizes; use `artifact_manage` with `operation: "read"` to retrieve exact content.
 
 ## Development
 
@@ -167,6 +168,35 @@ npm run dev
 ```
 
 `npm run dev` starts the stdio server and will wait for an MCP client. Do not use it as a long-running shell command without an MCP host attached.
+
+## Benchmark
+
+Run five reproducible local scenarios with five trials per scenario:
+
+```bash
+npm run benchmark
+```
+
+The benchmark drives the built server through real MCP JSON-RPC calls and covers protocol discovery, multi-agent coordination, artifact/context bounding, deterministic local analysis, and the change/review chain. It generates:
+
+- `benchmarks/results/benchmark-results.json`
+- `benchmarks/results/benchmark-report.md`
+- `benchmarks/results/benchmark-report.html`
+- `benchmarks/results/latency-by-scenario.svg`
+- `benchmarks/results/response-size-by-scenario.svg`
+- `benchmarks/results/correctness-by-scenario.svg`
+
+Increase repetitions with `BENCHMARK_ITERATIONS=10 npm run benchmark`. The current benchmark intentionally does not claim hosted OCR, vision-model accuracy, remote HTTP, OAuth, or real coding-agent runtime coverage.
+
+### Optimization and durability controls
+
+The local store uses atomic temporary-file replacement, content-addressed artifact blobs, compact JSON output, bounded project/context projections, opaque cursor pagination for list operations, and one-write review creation. Artifact content is never included in project context or list responses. For stronger power-loss durability, enable:
+
+```bash
+AGENTMESH_DURABLE_WRITES=1 npm start
+```
+
+That mode syncs each temporary state file before replacement and is slower by design. The default mode protects against partial JSON files while minimizing latency. Cross-record references are validated before writes, and invalid tool operations return explicit MCP error results.
 
 ## Project structure
 

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AgentMesh MCP Benchmark</title>
+<style>body{margin:0;background:#0b1220;color:#e2e8f0;font:16px/1.5 Inter,system-ui,sans-serif}main{max-width:1180px;margin:0 auto;padding:40px 24px}h1{color:#f8fafc}p{color:#94a3b8}.card{background:#111c2f;border:1px solid #243248;border-radius:14px;padding:18px;margin:20px 0;overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid #243248}th{color:#93c5fd}img{width:100%;height:auto;border-radius:8px}</style>
+</head>
+<body><main>
+<h1>AgentMesh MCP Benchmark</h1>
+<p>Local stdio JSON-RPC benchmark generated 2026-09-12T15:14:37.975Z with 20 iterations per scenario.</p>
+<div class="card"><table><thead><tr><th>Scenario</th><th>Pass rate</th><th>Mean ms</th><th>P95 ms</th><th>Mean response bytes</th></tr></thead><tbody><tr><td>Protocol discovery</td><td>100%</td><td>136.337</td><td>141.357</td><td>1166.333</td></tr><tr><td>Coordination lifecycle</td><td>100%</td><td>159.209</td><td>168.329</td><td>571.913</td></tr><tr><td>Artifact context bounds</td><td>100%</td><td>172.015</td><td>177.354</td><td>1140.471</td></tr><tr><td>Local analysis paths</td><td>100%</td><td>143.045</td><td>146.131</td><td>527</td></tr><tr><td>Change and review chain</td><td>100%</td><td>142.051</td><td>146.092</td><td>368.286</td></tr></tbody></table></div>
+<div class="card"><img src="latency-by-scenario.svg" alt="Mean and p95 latency by benchmark scenario" /></div>
+<div class="card"><img src="response-size-by-scenario.svg" alt="Mean MCP response size by benchmark scenario" /></div>
+<div class="card"><img src="correctness-by-scenario.svg" alt="Correctness pass rate by benchmark scenario" /></div>
+</main></body></html>

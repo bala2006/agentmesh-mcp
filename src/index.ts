@@ -8,8 +8,45 @@ import { JsonProjectStore } from './store.js';
 const store = new JsonProjectStore();
 
 const textResult = (value: unknown) => ({
-  content: [{ type: 'text' as const, text: JSON.stringify(value, null, 2) }],
+  content: [{ type: 'text' as const, text: JSON.stringify(value) }],
 });
+
+const errorResult = (value: unknown) => ({
+  isError: true,
+  content: [{ type: 'text' as const, text: JSON.stringify(value) }],
+});
+
+const artifactSummaryResult = (artifact: {
+  id: string;
+  kind: string;
+  title: string;
+  contentHash: string;
+  contentBytes: number;
+  createdBy: string;
+  taskId?: string;
+  createdAt: string;
+}) => ({
+  id: artifact.id,
+  kind: artifact.kind,
+  title: artifact.title,
+  contentHash: artifact.contentHash,
+  contentBytes: artifact.contentBytes,
+  createdBy: artifact.createdBy,
+  ...(artifact.taskId ? { taskId: artifact.taskId } : {}),
+  createdAt: artifact.createdAt,
+});
+
+const safe =
+  (handler: (input: any) => Promise<any>) =>
+  async (input: any): Promise<any> => {
+    try {
+      return await handler(input);
+    } catch (error) {
+      return errorResult({
+        error: error instanceof Error ? error.message : 'Unexpected AgentMesh operation failure.',
+      });
+    }
+  };
 
 function createServer() {
   const server = new McpServer({
@@ -22,20 +59,12 @@ function createServer() {
     {
       description:
         'Read a compact project snapshot: active agents, tasks, unread messages, artifacts, and decisions.',
-      inputSchema: z.object({}),
+      inputSchema: z.object({ limit: z.number().int().min(1).max(100).optional() }),
     },
-    async () => {
-      const state = await store.snapshot();
-      return textResult({
-        project: state.project,
-        agents: state.agents,
-        tasks: state.tasks.slice(-20),
-        unreadMessages: state.messages.filter((message) => !message.acknowledgedAt).slice(-20),
-        artifacts: state.artifacts.slice(-20).map(({ content: _content, ...artifact }) => artifact),
-        decisions: state.decisions.slice(-20),
-        persistencePath: store.path,
-      });
-    },
+    safe(async (input) => {
+      const context = await store.projectContext(input.limit ?? 20);
+      return textResult(context);
+    }),
   );
 
   server.registerTool(
@@ -50,17 +79,19 @@ function createServer() {
         runtime: z.string().optional(),
         capabilities: z.array(z.string()).optional(),
         status: z.enum(['online', 'idle', 'busy', 'offline']).optional(),
+        limit: z.number().int().min(1).max(100).optional(),
+        cursor: z.string().optional(),
       }),
     },
-    async (input) => {
+    safe(async (input) => {
       if (input.operation === 'list') {
-        const state = await store.snapshot();
-        return textResult({ agents: state.agents });
+        const page = await store.listAgents(input.limit ?? 50, input.cursor);
+        return textResult({ agents: page.items, nextCursor: page.nextCursor });
       }
 
       if (input.operation === 'register') {
         if (!input.name || !input.role || !input.runtime) {
-          return textResult({
+          return errorResult({
             error: 'name, role, and runtime are required to register an agent.',
           });
         }
@@ -75,11 +106,13 @@ function createServer() {
       }
 
       if (!input.agentId || !input.status) {
-        return textResult({ error: 'agentId and status are required for a status update.' });
+        return errorResult({ error: 'agentId and status are required for a status update.' });
       }
       const agent = await store.updateAgentStatus(input.agentId, input.status);
-      return textResult(agent ? { agent } : { error: `Agent not found: ${input.agentId}` });
-    },
+      return agent
+        ? textResult({ agent })
+        : errorResult({ error: `Agent not found: ${input.agentId}` });
+    }),
   );
 
   server.registerTool(
@@ -99,17 +132,19 @@ function createServer() {
         createdBy: z.string().default('unknown-agent'),
         parentTaskId: z.string().optional(),
         dependencies: z.array(z.string()).optional(),
+        limit: z.number().int().min(1).max(100).optional(),
+        cursor: z.string().optional(),
       }),
     },
-    async (input) => {
+    safe(async (input) => {
       if (input.operation === 'list') {
-        const state = await store.snapshot();
-        return textResult({ tasks: state.tasks });
+        const page = await store.listTasks(input.limit ?? 50, input.cursor);
+        return textResult({ tasks: page.items, nextCursor: page.nextCursor });
       }
 
       if (input.operation === 'create') {
         if (!input.title || !input.description) {
-          return textResult({ error: 'title and description are required for task creation.' });
+          return errorResult({ error: 'title and description are required for task creation.' });
         }
         const task = await store.createTask({
           title: input.title,
@@ -122,15 +157,17 @@ function createServer() {
         return textResult({ task });
       }
 
-      if (!input.taskId) return textResult({ error: 'taskId is required for task updates.' });
+      if (!input.taskId) return errorResult({ error: 'taskId is required for task updates.' });
       const task = await store.updateTask({
         taskId: input.taskId,
         status: input.status,
         assigneeId: input.assigneeId,
         description: input.description,
       });
-      return textResult(task ? { task } : { error: `Task not found: ${input.taskId}` });
-    },
+      return task
+        ? textResult({ task })
+        : errorResult({ error: `Task not found: ${input.taskId}` });
+    }),
   );
 
   server.registerTool(
@@ -146,22 +183,24 @@ function createServer() {
         body: z.string().optional(),
         replyTo: z.string().optional(),
         messageId: z.string().optional(),
+        limit: z.number().int().min(1).max(100).optional(),
+        cursor: z.string().optional(),
       }),
     },
-    async (input) => {
+    safe(async (input) => {
       if (input.operation === 'list') {
-        const state = await store.snapshot();
-        return textResult({ messages: state.messages.slice(-50) });
+        const page = await store.listMessages(input.limit ?? 50, input.cursor);
+        return textResult({ messages: page.items, nextCursor: page.nextCursor });
       }
 
       if (input.operation === 'acknowledge') {
-        if (!input.messageId) return textResult({ error: 'messageId is required.' });
+        if (!input.messageId) return errorResult({ error: 'messageId is required.' });
         const message = await store.acknowledgeMessage(input.messageId);
-        return textResult(message ? { message } : { error: 'Message not found.' });
+        return message ? textResult({ message }) : errorResult({ error: 'Message not found.' });
       }
 
       if (!input.fromAgentId || !input.body) {
-        return textResult({ error: 'fromAgentId and body are required to send a message.' });
+        return errorResult({ error: 'fromAgentId and body are required to send a message.' });
       }
       const message = await store.sendMessage({
         fromAgentId: input.fromAgentId,
@@ -172,7 +211,7 @@ function createServer() {
         replyTo: input.replyTo,
       });
       return textResult({ message });
-    },
+    }),
   );
 
   server.registerTool(
@@ -190,24 +229,23 @@ function createServer() {
         createdBy: z.string().default('unknown-agent'),
         taskId: z.string().optional(),
         metadata: z.record(z.string(), z.unknown()).optional(),
+        limit: z.number().int().min(1).max(100).optional(),
+        cursor: z.string().optional(),
       }),
     },
-    async (input) => {
+    safe(async (input) => {
       if (input.operation === 'list') {
-        const state = await store.snapshot();
-        return textResult({
-          artifacts: state.artifacts.map(({ content: _content, ...artifact }) => artifact),
-        });
+        const page = await store.listArtifactSummaries(input.limit ?? 50, input.cursor);
+        return textResult({ artifacts: page.items, nextCursor: page.nextCursor });
       }
 
       if (input.operation === 'read') {
-        const state = await store.snapshot();
-        const artifact = state.artifacts.find((candidate) => candidate.id === input.artifactId);
-        return textResult(artifact ? { artifact } : { error: 'Artifact not found.' });
+        const artifact = input.artifactId ? await store.getArtifact(input.artifactId) : undefined;
+        return artifact ? textResult({ artifact }) : errorResult({ error: 'Artifact not found.' });
       }
 
       if (!input.kind || !input.title || input.content === undefined) {
-        return textResult({
+        return errorResult({
           error: 'kind, title, and content are required to publish an artifact.',
         });
       }
@@ -219,8 +257,8 @@ function createServer() {
         taskId: input.taskId,
         metadata: input.metadata,
       });
-      return textResult({ artifact });
-    },
+      return textResult({ artifact: artifactSummaryResult(artifact) });
+    }),
   );
 
   server.registerTool(
@@ -236,18 +274,18 @@ function createServer() {
         taskId: z.string().optional(),
       }),
     },
-    async (input) => {
+    safe(async (input) => {
       const result = await analyzeMultimodalInput(input);
       const artifact = await store.createArtifact({
         kind: input.mode === 'asset' ? 'ocr' : 'analysis',
         title: `Multimodal analysis: ${input.goal}`,
-        content: JSON.stringify(result, null, 2),
+        content: JSON.stringify(result),
         createdBy: input.createdBy,
         taskId: input.taskId,
         metadata: { mode: input.mode, goal: input.goal },
       });
       return textResult({ result, artifactId: artifact.id });
-    },
+    }),
   );
 
   server.registerTool(
@@ -263,18 +301,18 @@ function createServer() {
         taskId: z.string().optional(),
       }),
     },
-    async (input) => {
+    safe(async (input) => {
       const result = checkDesignInput(input);
       const artifact = await store.createArtifact({
         kind: 'design-review',
         title: 'Design-system check',
-        content: JSON.stringify(result, null, 2),
+        content: JSON.stringify(result),
         createdBy: input.createdBy,
         taskId: input.taskId,
         metadata: { passed: result.passed },
       });
       return textResult({ result, artifactId: artifact.id });
-    },
+    }),
   );
 
   server.registerTool(
@@ -290,7 +328,7 @@ function createServer() {
         risk: z.enum(['low', 'medium', 'high']).default('medium'),
       }),
     },
-    async (input) => {
+    safe(async (input) => {
       const artifact = await store.createArtifact({
         kind: 'change-proposal',
         title: input.title,
@@ -304,7 +342,7 @@ function createServer() {
         artifactId: artifact.id,
         message: 'The proposal is recorded. This MVP does not modify files or merge changes.',
       });
-    },
+    }),
   );
 
   server.registerTool(
@@ -318,26 +356,10 @@ function createServer() {
         question: z.string().min(1),
       }),
     },
-    async (input) => {
-      const review = await store.createArtifact({
-        kind: 'review',
-        title: `Review request for ${input.artifactId}`,
-        content: input.question,
-        createdBy: input.requestedBy,
-        metadata: {
-          targetArtifactId: input.artifactId,
-          reviewerAgentId: input.reviewerAgentId,
-          status: 'requested',
-        },
-      });
-      const message = await store.sendMessage({
-        fromAgentId: input.requestedBy,
-        toAgentId: input.reviewerAgentId,
-        type: 'review',
-        body: input.question,
-      });
-      return textResult({ reviewArtifactId: review.id, messageId: message.id });
-    },
+    safe(async (input) => {
+      const result = await store.createReviewRequest(input);
+      return textResult({ reviewArtifactId: result.review.id, messageId: result.message.id });
+    }),
   );
 
   server.registerResource(
@@ -353,7 +375,7 @@ function createServer() {
         {
           uri: uri.href,
           mimeType: 'application/json',
-          text: JSON.stringify(await store.snapshot(), null, 2),
+          text: JSON.stringify(await store.compactProjectState()),
         },
       ],
     }),
